@@ -691,7 +691,7 @@ plt.show()
 
 
 
-![output_28_0](../images/output_28_0.png)
+![output_28_0](/images/output_28_0.png)
 
 ### Sec.4-4 箱ひげ図
 
@@ -710,7 +710,7 @@ plt.show()
 
 
 
-![output_30_0](../images/output_30_0.png)
+![output_30_0](/images/output_30_0.png)
 
 
 
@@ -735,7 +735,7 @@ plt.show()
 
 
 
-![output_33_0](../images/output_33_0.png)
+![output_33_0](/images/output_33_0.png)
 
 ### Sec.5-2 Sec.5-1の改善
 
@@ -782,7 +782,7 @@ plt.show()
 
 
 
-![output_38_0](../images/output_38_0.png)
+![output_38_0](/images/output_38_0.png)
 
 
 <p>data_wetについても同様に、可視化する。まず、データセットに0が含まれる場合、最小値の1/2を代わりに代入する。その後、対数を取り、可視化する。</p>

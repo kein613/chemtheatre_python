@@ -9,10 +9,7 @@
 
 <p>Part3では、主成分分析を行う。主成分分析とは、多くの説明変数<sup><a href=#sup1>1</a></sup>を、より数少ない指標や合成変数<sup><a href=#sup2>2</a></sup>で表すことである。つまり、統計的にデータを要約することで、直感的に理解しづらい多次元のデータ全体の傾向や雰囲気を掴むということである。例えば、体型を表す指標として身長と体重の2変数があるが、これらを1変数のBMIにまとめるようなものである。</p>
 <p>ChemTHEATREのデータの場合、一つのサンプルに対して、いくつかの化学物質の濃度を計測している事が多い。つまり、各サンプルについて説明変数が複数あるということである。今回は、各説明変数の持つ情報を可能な限り損なわないよう主成分分析し、データの概要を掴むことを目指す。</p>
-<figure id="process">
-<img src="../img/img (3).SVG" alt="全体図" width=75% height=75%>
-</figure>
-
+<img src="./images/img03.SVG" alt="img03" style="zoom:80%;" />
 
 
 ## Chap.1 ライブラリの読み込み
@@ -550,9 +547,7 @@ data_lipid[data_lipid["SampleID"] == "SAA001941"]    #SampleIDがSAA001941のデ
 <p>measureddataのデータ抽出が終了したら、次は、samplesとmeasureddataのDataFrameの統合を行う。<br>
 Part1、Part2では各化学物質のmeasureddataにsamplesの情報（学名や採集地など）を付け加えたが、今回は、各sampleに化学物質の計測値を付与するので処理が今までと異なることに注意する。</p>
 
-<figure id="process">
-<img src="../img/img (8).SVG" alt="全体図" width=75% height=75%>
-</figure>
+<img src="./images/img08.SVG" alt="img02" style="zoom:80%;" />
 
 
 

@@ -7,10 +7,7 @@
 
 <p>Part2では、統計的推定を行う。自然科学では、調査対象（自然）は直接全て調査することができないので、標本調査が一般的である。<br>
 その際、得られた標本（母集団の一部）から、未知の母集団全体の分布を推定するのが、統計的推定である。</p>
-<figure id="process">
-<img src="./images/img02.SVG" alt="全体図" width=75% height=75%>
-</figure>
-
+<img src="./images/img02.SVG" alt="img02" style="zoom:80%;" />
 
 
 ## Chap.1 ライブラリの読み込み

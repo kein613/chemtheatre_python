@@ -8,7 +8,7 @@
 
 <p>Part1では、ChemTHEATREに格納されているスナメリのデータを利用して、データの基本的な特性を見る基本統計量を分析し、箱ひげ図を利用して可視化する。</p>
 
-<img src="../images/img01.SVG" alt="img01" style="zoom:80%;" />
+<img src="./images/img01.SVG" alt="img01" style="zoom:80%;" />
 
 
 ## Chap.1 ライブラリの読み込み

@@ -1026,7 +1026,7 @@ ax.set_ylabel("ΣPCBs [ng/g wet]")
 plt.show()
 ```
 
-![png](output_59_0.png)
+![png](./images/output_59_0.png)
 
 
 

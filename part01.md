@@ -809,7 +809,7 @@ plt.show()
 
 
 
-![output_41_0](../images/output_41_0.png)
+![output_41_0](./images/output_41_0.png)
 
 ## 脚注
 

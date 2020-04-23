@@ -6,9 +6,8 @@
     時系列的な傾向分析や将来予測などに利用される統計手法である。</p>
 <p>ChemTHEATREでは、samplesに各標本の採集年・月・日（それぞれ、CollectionYear・CollectionMonth・CollectionDay）のデータが格納されている。<br>
 今回は、これらの採集年月日の情報と計測データを組み合わせて、時系列データとみなして、時系列分析し、将来値の予測を行う。</p>
-<figure id="process">
-<img src="../img/img (4).SVG" alt="全体図" width=75% height=75%>
-</figure>
+<img src="./images/img04.SVG" alt="img04" style="zoom:80%;" />
+
 
 ## Chap.1 ライブラリの読み込み
 

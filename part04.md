@@ -294,7 +294,7 @@ plt.show()
 
 
 
-![png](output_16_1.png)
+![png](images/output_16_1.png)
 
 
 
@@ -352,7 +352,7 @@ fig = sm.graphics.tsa.plot_pacf(df_sec, lags=11, ax=ax2)
 
 
 
-![png](output_22_1.png)
+![png](images/output_22_1.png)
 
 
 
@@ -387,7 +387,7 @@ diff, plt.plot(diff)
 
 
 
-![png](output_24_1.png)
+![png](images/output_24_1.png)
 
 <p>続いてARIMAモデルの推定をするために、ARMAの次数<sup><a href=#sup2>2</a></sup>を決定する。Pythonの場合、ARIMAの次数を自動で決定する関数はない<sup><a href=#sup3>3</a></sup>ので、ARMAの次数は任意に決める必要がある。ここでは、Pythonで自動化されているARMAの次数決定関数（statsmodelのtsa.arma_order_select_ic関数）を用いてARとMAの次数を決定する。</p>
 ```python
@@ -429,7 +429,7 @@ fig = sm.graphics.tsa.plot_pacf(resid, lags=10, ax=ax2)
 ```
 
 
-![png](output_30_0.png)
+![png](images/output_30_0.png)
 
 
 <p>最後に時系列分析した結果を可視化してみる。時系列分析での予測は、statsmodelのpredictメソッドを使えば、そのモデルの指定した範囲での予測ができる。</p>
@@ -448,7 +448,7 @@ plt.plot(pred_arima, "r")
 
 
 
-![png](output_32_1.png)
+![png](images/output_32_1.png)
 
 
 

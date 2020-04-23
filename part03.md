@@ -553,26 +553,18 @@ Part1、Part2では各化学物質のmeasureddataにsamplesの情報（学名や
 
 
 ```python
-#私がpythonにそんなになれてないのもあると思うのですがこの処理よくわからないです。
-#切り分けてわかりやすくなるならtotalの手順が増えてでもわかりやすい処理にならないでしょうか
-#縦持ち横持ち変換ならこちらのような: https://ohke.hateblo.jp/entry/2018/07/21/230000
-
-df = pd.DataFrame(index = ["ScientificName", "ΣPCBs", "ΣDDTs", "ΣPBDEs", "ΣCHLs", "ΣHCHs"])    #新しくデータを格納するDataFrame
-for irow in range(len(sample)):
-    sample_id = sample.at[irow, "SampleID"]
-    if sample_id in data_lipid["SampleID"].values:
-        rowdata = pd.Series(index = ["ScientificName", "ΣPCBs", "ΣDDTs", "ΣPBDEs", "ΣCHLs", "ΣHCHs"])    #入力する行のフレーム
-        rowdata["ScientificName"] = sample.at[irow, "ScientificName"]    #SampleIDの検索
-        for chem in ["ΣPCBs", "ΣDDTs", "ΣPBDEs", "ΣCHLs", "ΣHCHs"]:    
-            row = data_lipid[(data_lipid['SampleID'] == sample_id) & (data_lipid['ChemicalName'] == chem)].reset_index(drop = True)
-            if row.empty:
-                pass    #入力する行データがない場合、処理をしない
-            else:
-                rowdata[chem] = row.at[0, "MeasuredValue"]
-        df = df.append(rowdata, ignore_index=True)
-    else:
-        pass
-df = df.dropna(how='any').reset_index(drop=True)
+# SampleIDと学名だけのDataFrameを作成
+df = sample[["SampleID", "ScientificName"]]
+for chem in ["ΣCHLs", "ΣDDTs", "ΣHCHs", "ΣPBDEs", "ΣPCBs"]: #化学物質名でループ処理
+    # リストchem番目の化学物質のみを対象としたDataFrameを作成
+    data_lipid_chem = data_lipid[data_lipid["ChemicalName"] == chem]
+    # SampleIDと測定値だけを残して、列名"MeasuredValue"を化学物質名に変更
+    data_lipid_chem = data_lipid_chem[["SampleID", "MeasuredValue"]].rename(columns={"MeasuredValue": chem})
+    data_lipid_chem = data_lipid_chem.drop_duplicates(subset='SampleID')
+    # SampleIDでdf(ID+学名)とdata_lipid_chem(ID+測定値)をマージ
+    df = pd.merge(df, data_lipid_chem, on="SampleID")
+df = df.dropna(how="any") #NaNが含まれる行を除去
+df = df.drop("SampleID", axis=1)
 df
 ```
 

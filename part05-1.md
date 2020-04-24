@@ -4,9 +4,9 @@
 ## Chap.0 全体の流れ
 <p>Part 5では、ChemTHEATREのデータを利用して、計測された化学物質の濃度を地図上にプロットする。いうなれば簡易的なGISである。<br>
   前編ではデータ処理～地図上へのプロットを、後編では出力した画像データをつなぎ合わせてアニメーションを作成することを目指す。</p>
-<figure id="process">
-<img src="../img/img (5).SVG" alt="全体図"　width=640 height=360>
-</figure>
+
+<img src="./img/img05.SVG" alt="img05"　style="zoom:80%;" />
+
 
 ## Chap.1 ライブラリの読み込み
 
@@ -609,7 +609,7 @@ plt.show()
 ```
 
 
-![png](output_18_0.png)
+![png](/images/output_18_0.png)
 
 
 <p>次に、地図の上に重ねるグラグの確認をする。今回は緯度・経度の2次元空間内での地点を計測地点としてプロットするので、散布図としてデータを描く。<br>
@@ -637,7 +637,7 @@ plt.show()
 ```
 
 
-![png](output_22_0.png)
+![png](/images/output_22_0.png)
 
 
 ### Sec.4-2 散布図 + 正距円筒図法
@@ -659,7 +659,7 @@ plt.show()
 ```
 
 
-![png](output_24_0.png)
+![png](/images/output_24_0.png)
 
 
 ### Sec.4-3 Sec.4-2の改良
@@ -685,7 +685,7 @@ plt.show()
 ```
 
 
-![png](output_26_0.png)
+![png](/images/output_26_0.png)
 
 
 
@@ -725,7 +725,7 @@ plt.show()
 ```
 
 
-![png](output_30_0.png)
+![png](/images/output_30_0.png)
 
 
 <p>これでは計測地点が反映されるだけなので、測定値も地図上にプロットしてみる。各散布点の半径に反映してみる。散布図を描くscatterメソッドのsパラメータにMeasuredValue列のデータを代入するだけで良い。</p>
@@ -745,7 +745,7 @@ plt.show()
 ```
 
 
-![png](output_32_0.png)
+![png](/images/output_32_0.png)
 
 
 <p></p>
@@ -767,7 +767,7 @@ plt.show()
 ```
 
 
-![png](output_35_0.png)
+![png](/images/output_35_0.png)
 
 
 <p>これで、地図上に計測結果をプロットするところまではできた。しかし、すべてのデータが重なって表示されるので非常に見にくい図となっており、この図では時系列的な変化もわからない。後編では、それらの問題を解消するためにアニメーションにする。</p>
@@ -775,8 +775,6 @@ plt.show()
 ## 脚注
 
 <p><sup id=sup1>1</sup>イテレータとは、リストなどのデータの集合する型で次の要素にアクセスすることを繰り返す仕組みのこと。</p>
-<p><sup id=sup2>2</sup>直積とは、下図のように各集合から要素を1つずつ取り出して組にして、新たな集合を作ること。デカルト積とも。
-<figure id="process">
-<img src="../img/img (12).SVG" alt="直積の計算"　width=640 height=360>
-</figure></p>
+<p><sup id=sup2>2</sup>直積とは、下図のように各集合から要素を1つずつ取り出して組にして、新たな集合を作ること。デカルト積とも。</p>
 
+<img src="./images/img12.SVG" alt="img12"　style="zoom:80%;" />

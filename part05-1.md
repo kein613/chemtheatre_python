@@ -401,14 +401,13 @@ sample
 
 ## Chap.3 データの下処理
 <p>Chap.2で読み込んだDataFrameを地図にプロットできるようにした準備する。まず、measureddataとsamplesを結合し、N/Aの列を削除する。</p>
+
 ```python
 df = pd.merge(data, sample, on="SampleID")
 
 df = df.dropna(how='all', axis=1)
 df
 ```
-
-
 
 <table border="1" class="dataframe" style="font-size: 0.8rem">
   <thead>
@@ -564,6 +563,7 @@ df
 
 
 <p>次に、必要なデータの抽出を行う。今回取り扱うのは単位が[ng/g lipid]の4種類の化学物質（ΣPCBs, ΣDDTs, ΣCHLs, ΣHCHs）についてのデータである。</p>
+
 ```python
 data_lipid = df[df["Unit"] == "ng/g lipid"]
 data_lipid = data_lipid[(data_lipid["ChemicalName"] == "ΣPCBs") | (data_lipid["ChemicalName"] == "ΣDDTs") |
@@ -571,6 +571,7 @@ data_lipid = data_lipid[(data_lipid["ChemicalName"] == "ΣPCBs") | (data_lipid["
 ```
 
 <p>これで必要なデータの抽出は終了した。確認も兼ねて、このデータセットに含まれる生物種と化学物質名の一覧を取得する。</p>
+
 ```python
 lipid_species = data_lipid["ScientificName"].unique()
 lipid_chemicals = data_lipid["ChemicalName"].unique()
@@ -578,21 +579,15 @@ lipid_chemicals = data_lipid["ChemicalName"].unique()
 lipid_species, lipid_chemicals
 ```
 
-
-
-
     (array(['Peponocephala electra', 'Neophocaena phocaenoides',
             'Sousa chinensis', 'Stenella coeruleoalba'], dtype=object),
      array(['ΣPCBs', 'ΣDDTs', 'ΣCHLs', 'ΣHCHs'], dtype=object))
 
-
-
 <p>またここで、後編でも同じデータを利用できるように、DataFrame・data_lipidをCSV形式で出力しておく。CSVの出力はPandasのto_csvメソッドを利用する。</p>
+
 ```python
 data_lipid.to_csv("data.csv")
 ```
-
-
 
 ## Chap.4 地図へのプロット
 
@@ -600,20 +595,16 @@ data_lipid.to_csv("data.csv")
 <p>続いて、今回のメインである、地図上へのプロットを行う。だが、最初にどのように地図を作成するかを丁寧に確認しておく。<br>
 今回のグラフは、地図上に出力することになるので、まず地図の出力を行う。Pythonではcartopyを利用すると、matplotlib上に地図を出力する事ができる。</p>
 
-
 ```python
 ax = plt.axes(projection=ccrs.PlateCarree())
 ax.coastlines()
 plt.show()
 ```
 
-
 ![png](/images/output_18_0.png)
-
 
 <p>次に、地図の上に重ねるグラグの確認をする。今回は緯度・経度の2次元空間内での地点を計測地点としてプロットするので、散布図としてデータを描く。<br>
 描画する前に、data_lipidに含まれる生物種ごとにデータを選り分ける。</p>
-
 
 ```python
 df_0 = data_lipid[(data_lipid["ChemicalName"] == "ΣPCBs") & (data_lipid["ScientificName"] == lipid_species[0])]    #カズハゴンドウのΣPCBs
@@ -623,6 +614,7 @@ df_3 = data_lipid[(data_lipid["ChemicalName"] == "ΣPCBs") & (data_lipid["Scient
 ```
 
 <p>データがより分けられたら、散布図に起こしてみる。matplotlibのグラフ描画は、上に重ねがけすることができるので、順々に書き加えていくイメージで良い。</p>
+
 ```python
 fig = plt.figure()
 ax = plt.axes()
@@ -635,16 +627,14 @@ ax.scatter(x = np.array(df_3["CollectionLongitudeFrom"]), y = np.array(df_3["Col
 plt.show()
 ```
 
-
 ![png](/images/output_22_0.png)
 
 
 ### Sec.4-2 散布図 + 正距円筒図法
 <p>ベースとなる図が描画できたので、今度はそれらを重ね合わせて描画してみる。</p>
 <figure id="process">
-<img src="../img/img (9).SVG" alt="全体図"　width=640 height=360>
+<img src="./images/img09.SVG" alt="img09" style="zoom:80%;" />
 </figure>
-
 
 ```python
 fig = plt.figure()
@@ -657,17 +647,14 @@ ax.scatter(x = np.array(df_3["CollectionLongitudeFrom"]), y = np.array(df_3["Col
 plt.show()
 ```
 
-
 ![png](/images/output_24_0.png)
 
 
 ### Sec.4-3 Sec.4-2の改良
 <p>Sec.4-2で一応出力することができた。しかし、今の状態では地図の範囲が自動で設定されている。これは、データの存在する範囲が全て含まれるように自動処理されているだけなので、取り扱うデータによってその範囲が変わってしまう。ここでは、適当な範囲で地図を固定化する。</p>
 <p>matplotlibのset_xlim・set_ylimメソッドを使うことで、それぞれ描画するグラフのX軸方向・Y軸方向の範囲を決めることができる。</p>
-<figure id="process">
-<img src="../img/img (10).SVG" alt="全体図"　width=640 height=360>
-</figure>
 
+<img src="./images/img10.SVG" alt="img10" style="zoom:80%;" />
 
 ```python
 fig = plt.figure()
@@ -683,25 +670,21 @@ ax.set_title("ΣPCBs")
 plt.show()
 ```
 
-
 ![png](/images/output_26_0.png)
-
 
 
 ## Chap.5 １枚にまとめて出力する
 
 <p>Chap.3でわかったとおり、このDataFrameには４種類の化学物質のデータが含まれているので、これらを４つ並べて１枚にまとめた形にして出力してみる。</p>
 <p>まず、Chap.4でもやったように、化学物質ごとにデータの選り分けを行うのだが、全部で16通り（生物・化学物質が４種ずつ）の組み合わせがあるので、ここではリストにまとめて、描画する際に順次読み込む形を取る。この際、それぞれの組み合わせ（例えばスナメリのΣPCBs）を生成する必要があるので、Pythonのイテレータ<sup><a href=#sup1>1</a></sup>という機能を利用して、直積<sup><a href=#sup2>2</a></sup>を求めることにする。つまり、化学物質のリスト（lipid_chemicals）と生物種名のリスト（lipid_species）の直積を求めて、16通りの組み合わせパターンすべてを導出する。</p>
+
 ```python
 df_list = []
 for k1, k2 in itertools.product(lipid_chemicals, lipid_species):
     df_list.append(data_lipid[(data_lipid["ChemicalName"] == k1) & (data_lipid["ScientificName"] == k2)])    #各組み合わせのデータを抽出
 ```
 
-<figure id="process">
-<img src="../img/img (11).SVG" alt="全体図"　width=640 height=360>
-</figure>
-
+<img src="./images/img11.SVG" alt="img11" style="zoom:80%;" />
 
 ```python
 ax = [0]*4
@@ -723,11 +706,10 @@ for i in range(4):
 plt.show()
 ```
 
-
 ![png](/images/output_30_0.png)
 
-
 <p>これでは計測地点が反映されるだけなので、測定値も地図上にプロットしてみる。各散布点の半径に反映してみる。散布図を描くscatterメソッドのsパラメータにMeasuredValue列のデータを代入するだけで良い。</p>
+
 ```python
 fig = plt.figure(figsize=(16, 9))
 for i in range(4): 
@@ -743,12 +725,10 @@ for i in range(4):
 plt.show()
 ```
 
-
 ![png](/images/output_32_0.png)
 
-
-<p></p>
 <p>MeasuredValueの値をそのまま散布点の半径に代入すると、特にΣDDTsのグラフの円が大きくなって、全てが重なってしまうので半径を小さくするように調整する。ここでは、一律10分の1の大きさにする。</p>
+
 ```python
 fig = plt.figure(figsize=(16, 9))
 rate = [10,10,10,10]    #縮尺を示す変数
@@ -765,9 +745,7 @@ for i in range(4):
 plt.show()
 ```
 
-
 ![png](/images/output_35_0.png)
-
 
 <p>これで、地図上に計測結果をプロットするところまではできた。しかし、すべてのデータが重なって表示されるので非常に見にくい図となっており、この図では時系列的な変化もわからない。後編では、それらの問題を解消するためにアニメーションにする。</p>
 

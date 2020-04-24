@@ -563,7 +563,7 @@ plt.suptitle("Stenella coeruleoalba")
 plt.show()
 ```
 
-![png](output_06_01.png)
+![png](/images/output_06_01.png)
 
 <p>まず、スジイルカのΣPCBs・ΣCHLsデータの2つを比較してみる。この2つのデータについては、上の出力結果からΣPCBsのデータのほうが全体的に高い傾向にあると直感的にわかるが、それが統計的に妥当かどうかを検定を用いて検証してみる。</p>
 <p>最初に行うのはシャピロ・ウィルク検定である。これは母集団が正規分布に従っているものかどうかの検定である。したがって今回の、帰無仮説<i>H</i><sub>0</sub>は「標本が正規分布からサンプリングされた」とするので、対立仮説<i>H</i><sub>1</sub>は「標本が正規分布からサンプリングされていない」である。<br>また、有意水準は5%（&alpha; = 0.05）として検定を行う。</p>
@@ -624,7 +624,7 @@ plt.suptitle("Stenella coeruleoalba")
 plt.show()
 ```
 
-![png](output_06_02.png)
+![png](/images/output_06_02.png)
 
 
 ### Sec.4-2 スナメリとスジイルカのΣPCBsデータの検定
@@ -639,7 +639,7 @@ plt.suptitle("ΣPCBs")
 plt.show()
 ```
 
-![png](output_06_03.png)
+![png](/images/output_06_03.png)
 
 <p>続いて、スナメリとスジイルカのΣPCBsのデータの比較を行ってみる。上の出力結果からも、スジイルカの方がスナメリより全体的に値が高い傾向にあることがわかる。今度も、統計的検定からそれを実証していく。</p>
 <p>まず、2群間の統計検定をする前に、これらのデータ群にそれぞれ正規性があるかを確認するためにシャピロ・ウィルク検定を行う。<br>
@@ -696,7 +696,7 @@ ax.set_title("Neophocaena phocaenoides")
 plt.show()
 ```
 
-![png](output_06_04.png)
+![png](/images/output_06_04.png)
 
 
 ```python
@@ -742,7 +742,7 @@ plt.show()
 ```
 
 
-![png](output_06_05.png)
+![png](/images/output_06_05.png)
 
 
 

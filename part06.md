@@ -7,13 +7,10 @@
 <p>一般的な検定の手順としては、まず、帰無仮説<i>H</i><sub>0</sub>を立て、有意水準（&alpha;）を設定する。次に、帰無仮説<i>H</i><sub>0</sub>の下で、データから求められる検定統計量を取る確率（<i>p</i>値）を求める。その後、その確率（<i>p</i>値）を有意水準（&alpha;）と比較する。<i>p</i>値が有意水準より小さい場合、確率的に帰無仮説<i>H</i><sub>0</sub>は滅多にありえないとして棄却し、対立仮説<i>H</i><sub>1</sub>を採択する。対して、。<i>p</i>値が有意水準より大きい場合、確率的に帰無仮説が正しいとして、帰無仮説<i>H</i><sub>0</sub>を採択する。</p>
 <p>今回はChemTHEATREのいくつかのデータを用いて、仮説検定の概要を掴むことを目指す。</p>
 
-<img src="../img/img07.SVG" alt="img07" style="zoom:80%;" />
-
-
+<img src="./images/img07.SVG" alt="img07" style="zoom:80%;" />
 
 
 ## Chap.1 ライブラリの読み込み
-
 
 ```python
 %matplotlib inline
@@ -25,6 +22,7 @@ import seaborn as sns
 ```
 
 <p>まず最初にライブラリの読み込みを行う。今回利用するライブラリはいずれも、Anacondaにすべてインストールされているものである。</p>
+
 <table style="font-size: 0.8rem">
   <tr>
     <th>ライブラリ</th>
@@ -65,10 +63,10 @@ import seaborn as sns
 </table>
 
 
-
 ## Chap.2 データの読み込み
 
 <p>ライブラリの読み込みができたら、次はデータの読み込みを行う。今回取り扱うデータは、スナメリ（<i>Neophocaena phocaenoides</i>）とスジイルカ（<i>Stenella coeruleoalba</i>）のデータである。これらをChemTHEATREのSample Searchからmeasureddataとsamplesを検索し、ダウンロードしてこのノートブックファイルに読み込む。</p>
+
 ```python
 data_file1 = "measureddata_20190826061813.tsv"    #変数に入力する文字列を、各自のmeasureddataのtsvファイル名に変更する
 data_file2 = "measureddata_20190826061826.tsv"    #変数に入力する文字列を、各自のmeasureddataのtsvファイル名に変更する
@@ -79,7 +77,6 @@ data1 = data1.drop(["ProjectID", "ScientificName", "RegisterDate", "UpdateDate"]
 data2 = data2.drop(["ProjectID", "ScientificName", "RegisterDate", "UpdateDate"], axis=1)    #後でsamplesと結合する際に重複する列の削除
 ```
 
-
 ```python
 sample_file1 = "samples_20190826061810.tsv"    #変数に入力する文字列を、各自のsamplesのtsvファイル名に変更する
 sample_file2 = "samples_20190826061824.tsv"    #変数に入力する文字列を、各自のsamplesのtsvファイル名に変更する
@@ -88,17 +85,16 @@ sample1, sample2 = pd.read_csv(sample_file1, delimiter="\t"), pd.read_csv(sample
 ```
 
 
-
 ## Chap.3 データの下処理
 
 <p>それでは、読み込んだデータの下処理から行う。最初にsamplesとmeasureddataを結合する。</p>
+
 ```python
 df1, df2 = pd.merge(data1, sample1, on="SampleID"), pd.merge(data2, sample2, on="SampleID")
 ```
 
 <p>続いて、必要なデータの抽出を行う。まず、このデータフレームの単位を統一するために、単位が[ng/g lipid]のデータのみを抽出する。<br>
 次に、抽出したデータからさらに4種類の化学物質（ΣPCBs, ΣDDTs, ΣPBDEs, ΣCHLs）のデータを抽出する。</p>
-
 
 ```python
 data_lipid_1 = df1[(df1["Unit"] == "ng/g lipid")]
@@ -111,12 +107,14 @@ data_lipid_2 = data_lipid_2[(data_lipid_2["ChemicalName"] == "ΣPCBs") | (data_l
 ```
 
 <p>抽出したスナメリ・スジイルカのデータは結合して、空白の列を削除しておく。</p>
+
 ```python
 data_lipid = pd.concat([data_lipid_1, data_lipid_2], sort = True)
 data_lipid = data_lipid.dropna(how="all", axis=1)
 ```
 
 <p>データがひとまとめになったので、ここからは必要なデータを切り出す。</p>
+
 ```python
 data_pcb = data_lipid[data_lipid["ChemicalName"] == "ΣPCBs"]    #ΣPCBs
 data_chl = data_lipid[data_lipid["ChemicalName"] == "ΣCHLs"]    #ΣCHLs
@@ -124,15 +122,12 @@ data_ddt = data_lipid[data_lipid["ChemicalName"] == "ΣDDTs"]    #ΣDDTs
 data_pbde = data_lipid[data_lipid["ChemicalName"] == "ΣPBDEs"]    #ΣPBDEs
 ```
 
-
 ```python
 data_1 = data_lipid[data_lipid["ScientificName"] == "Stenella coeruleoalba"]    #スジイルカのデータ
 data_1 = data_1[(data_1["ChemicalName"] == "ΣPCBs") | (data_1["ChemicalName"] == "ΣCHLs")]    #スジイルカのデータからΣPCBsとΣCHLsを抽出
 data_1.loc[:, "LogValue"] = data_1["MeasuredValue"].apply(np.log10)    #対数を取る
 data_1
 ```
-
-
 
 <table border="1" class="dataframe" style="font-size: 0.8rem">
   <thead>
@@ -300,9 +295,7 @@ data_1
 
 <p>さらに、相関関係を見るために測定した ΣPCBs, ΣDDTs, ΣCHLs, ΣPBDEsのデータを同じスナメリの個体（SampleID）ごとにまとめる。</p>
 
-<img src="../img/img13.SVG" alt="img13" style="zoom:80%;" />
-
-
+<img src="./images/img13.SVG" alt="img13" style="zoom:80%;" />
 
 ```python
 data_corr = pd.DataFrame(index = ["ScientificName", "ΣPCBs", "ΣDDTs", "ΣCHLs", "ΣPBDEs"])    #出力するDataFrame
@@ -327,7 +320,6 @@ data_corr
 
     C:\Users\masah\Anaconda3\lib\site-packages\ipykernel_launcher.py:9: UserWarning: Boolean Series key will be reindexed to match DataFrame index.
       if __name__ == '__main__':
-
 
 
 <table border="1" class="dataframe" style="font-size: 0.8rem">
@@ -530,8 +522,8 @@ data_corr
 </table>
 
 
-
 <p>最後に今後の計算で扱いやすいように、取り扱うデータをndarray形式に変換しておく。</p>
+
 ```python
 pcb_4_1 = np.array(data_1[data_1["ChemicalName"] == "ΣPCBs"]["MeasuredValue"])    # スジイルカのΣPCBsデータ
 chl_4_1 = np.array(data_1[data_1["ChemicalName"] == "ΣCHLs"]["MeasuredValue"])    # スジイルカのΣCHLsデータ
@@ -547,7 +539,6 @@ pbde_5_2 = np.array(data_corr["ΣPBDEs"])    #スナメリのΣPBDEsデータ
 ```
 
 
-
 ## Chap.4 2標本t検定
 
 <p>　2つの独立した母集団があるとして、それぞれの母集団から抽出した標本の平均に差があるかどうかを検定することを「2標本t検定」という。<br>
@@ -557,11 +548,11 @@ pbde_5_2 = np.array(data_corr["ΣPBDEs"])    #スナメリのΣPBDEsデータ
 この場合は、2データ間の「差」を取ることができるので、「2群間の差が0であること」を検定する。<br>
 　「データに対応がない」場合は、それぞれの母集団がどのような性質を持っているかによって、下図のように行う検定が異なってくる。<br>
 また、これらの母集団の各性質についても、下図のようにその都度検定を行って確かめる必要がある。</p>
+
 <img src="../img/img14.SVG" alt="img14" style="zoom:80%;" />
 
 
 ### Sec.4-1 スジイルカのΣPCBs・ΣCHLsデータの検定
-
 
 ```python
 fig = plt.figure()
@@ -572,12 +563,12 @@ plt.suptitle("Stenella coeruleoalba")
 plt.show()
 ```
 
-
 ![png](output_06_01.png)
 
 <p>まず、スジイルカのΣPCBs・ΣCHLsデータの2つを比較してみる。この2つのデータについては、上の出力結果からΣPCBsのデータのほうが全体的に高い傾向にあると直感的にわかるが、それが統計的に妥当かどうかを検定を用いて検証してみる。</p>
 <p>最初に行うのはシャピロ・ウィルク検定である。これは母集団が正規分布に従っているものかどうかの検定である。したがって今回の、帰無仮説<i>H</i><sub>0</sub>は「標本が正規分布からサンプリングされた」とするので、対立仮説<i>H</i><sub>1</sub>は「標本が正規分布からサンプリングされていない」である。<br>また、有意水準は5%（&alpha; = 0.05）として検定を行う。</p>
 <p>PythonではScipyのstats.shapiro関数を利用すれば、シャピロ・ウィルク検定を行うことができる。この関数は返り値として検定統計量<i>W</i>と<i>p</i>値が得られる。</p>
+
 ```python
 stats.shapiro(pcb_4_1), stats.shapiro(chl_4_1)
 ```
@@ -592,6 +583,7 @@ stats.shapiro(pcb_4_1), stats.shapiro(chl_4_1)
 
 <p>上の出力結果より、ΣPCBsのデータもΣCHLsのデータも共に、<i>p</i>値（右の値）が有意水準の0.05より大きい。したがって、帰無仮説<i>H</i><sub>0</sub>が採択されるので、これらのデータは正規分布からサンプリングされたといえる。</p>
 <p>シャピロ・ウィルク検定から、データの正規性が確認できたので、次にF検定を行う。これは、これら2つのデータの分散が等しいことを検定するものである。なので、今回の帰無仮説<i>H</i><sub>0</sub>は「これら2つのデータの標準偏差は等しい」とし、対立仮説<i>H</i><sub>1</sub>は「2つのデータの標準偏差は等しくない」である。また、今回も有意水準5%（&alpha; = 0.05）で検定する。</p>
+
 ```python
 stats.bartlett(pcb_4_1, chl_4_1)
 ```
@@ -606,6 +598,7 @@ stats.bartlett(pcb_4_1, chl_4_1)
 <p>上の出力結果から検定の結果を読み取ると、<i>p</i>値が有意水準の0.05より遥かに小さい。つまり、このような帰無仮説<i>H</i><sub>0</sub>は、まず滅多に起きず棄却され、対立仮説<i>H</i><sub>1</sub>が採択される。なので、スジイルカのΣPCBsとΣCHLsのデータは等分散性を仮定することができない。</p>
 <p>ここまでの検定から、スジイルカのΣPCBs・ΣCHLsデータは正規性はあるものの、等分散ではないということがわかった。したがって、この2つのデータの比較は、ウェルチのt検定を行う。</p>
 <p>PythonではScipyのstats.ttest_ind関数を使うことで、対応のない2標本のt検定を行うことができる。ちなみにequal_varパラメータをTrueにすると等分散と仮定したスチューデントのt検定を、Falseにすると等分散と仮定しないウェルチのt検定を行うことができる。</p>
+
 ```python
 stats.ttest_ind(pcb_4_1, chl_4_1, equal_var=False)
 ```
@@ -620,6 +613,7 @@ stats.ttest_ind(pcb_4_1, chl_4_1, equal_var=False)
 <p>stats.ttest_ind関数の出力結果は、statisticがt検定の検定統計量<i>t</i>で、pvalueが<i>p</i>値である。<br>
 今回は、有意水準（&alpha; = 0.05$）であり、<i>p</i>値がこれより小さいので、帰無仮説<i>H</i><sub>0</sub>は棄却され、対立仮説<i>H</i><sub>1</sub>の「ΣPCBsとΣCHLsのデータの平均値には差がある」が採択される。</p>
 <p>検定結果を確認する意味でも、箱ひげ図を出力してみる。箱ひげ図の出力はPart1で行ったものと同じである。</p>
+
 ```python
 fig = plt.figure()
 ax = fig.add_subplot(1,1,1)
@@ -630,12 +624,10 @@ plt.suptitle("Stenella coeruleoalba")
 plt.show()
 ```
 
-
 ![png](output_06_02.png)
 
 
 ### Sec.4-2 スナメリとスジイルカのΣPCBsデータの検定
-
 
 ```python
 fig = plt.figure()
@@ -647,13 +639,11 @@ plt.suptitle("ΣPCBs")
 plt.show()
 ```
 
-
 ![png](output_06_03.png)
 
 <p>続いて、スナメリとスジイルカのΣPCBsのデータの比較を行ってみる。上の出力結果からも、スジイルカの方がスナメリより全体的に値が高い傾向にあることがわかる。今度も、統計的検定からそれを実証していく。</p>
 <p>まず、2群間の統計検定をする前に、これらのデータ群にそれぞれ正規性があるかを確認するためにシャピロ・ウィルク検定を行う。<br>
 帰無仮説<i>H</i><sub>0</sub>はSec.4-1同様に「標本は正規分布からサンプリングされた」であり、有意水準は5%（&alpha; = 0.05）とする。</p>
-
 
 ```python
 stats.shapiro(n_4_2), stats.shapiro(s_4_2)    #n_4_2はスナメリ、s_4_2はスジイルカのデータ
@@ -672,6 +662,7 @@ stats.shapiro(n_4_2), stats.shapiro(s_4_2)    #n_4_2はスナメリ、s_4_2は�
 マン・ホイットニーのU検定は、正規性の仮定できない独立した2群間の代表値の差がないことを検定する。<br>
 つまり今回の場合、帰無仮説<i>H</i><sub>0</sub>は「スナメリのΣPCBsとスジイルカのΣPCBsのデータの代表値には差がない」とし、対立仮説<i>H</i><sub>1</sub>は「スナメリのΣPCBsとスジイルカのΣPCBsのデータの代表値には差がある」とする。また、有意水準は5% (&alpha; = 0.05)とする。</p>
 <p>Pythonでマン・ホイットニーのU検定を行うには、Scipyのstats.mannwhitneyu関数を用いる。この関数の返り値は、検定統計量<i>U</i>と<i>p</i>値である。</p>
+
 ```python
 stats.mannwhitneyu(n_4_2, s_4_2, alternative='two-sided')
 ```
@@ -687,7 +678,6 @@ stats.mannwhitneyu(n_4_2, s_4_2, alternative='two-sided')
 つまり、スナメリとスジイルカのデータには差があるということがわかった。</p>
 
 
-
 ## Chap.5  無相関検定
 
 <p>それでは、次に2変数の相関性を検定してみる。2変数の相関関係については、一般に散布図での可視化と相関係数の大きさで判断されことが多い。<br>
@@ -696,7 +686,6 @@ stats.mannwhitneyu(n_4_2, s_4_2, alternative='two-sided')
 ### Sec.5-1 スナメリのΣPCBsとΣDDTsのデータの相関の検定
 <p>それでは早速、スナメリのΣPCBsとΣDDTsのデータの相関について考察してみる。<br>
 まずは、matplotlibで散布図を描画してデータの概形を確認し、Numpyのcorrcoef関数を利用して相関係数を出してみる。</p>
-
 
 ```python
 ax = plt.axes()
@@ -707,9 +696,7 @@ ax.set_title("Neophocaena phocaenoides")
 plt.show()
 ```
 
-
 ![png](output_06_04.png)
-
 
 
 ```python
@@ -726,6 +713,7 @@ np.corrcoef(pcb_5_1, ddt_5_1)[0,1]
 <p>上の散布図と相関係数から、正の相関があると考えられる。</p>
 <p>次に、無相関検定を行って検証していく。まず、帰無仮説<i>H</i><sub>0</sub>は「スナメリのΣPCBsとΣDDTsのデータには相関がない」とする。また、有意水準は5%（&alpha; = 0.05）とする。</p>
 <p>Pythonでは、Scipyのpearsonr関数を利用すれば、無相関検定を行うことができる。返り値は相関係数と<i>p</i>値である。</p>
+
 ```python
 stats.pearsonr(pcb_5_1, ddt_5_1)
 ```
@@ -738,8 +726,12 @@ stats.pearsonr(pcb_5_1, ddt_5_1)
 
 
 <p>上の出力結果より、<i>p</i>値が有意水準（&alpha; = 0.05）よりはるかに小さいので、帰無仮説<i>H</i><sub>0</sub>は棄却され、対立仮説の「無相関ではない」が採択される。<br>したがって、相関係数は有意だと考えられるので、スナメリのΣPCBsとΣDDTsのデータには正の相関があると言える。</p>
+
+
 ### Sec.5-2 スナメリのΣPBDEsとΣCHLsのデータの相関の検定
+
 <p>最後に、スナメリのΣPBDEsとΣCHLsのデータの相関について検定してみる。今回も最初に散布図と相関係数を出力して考察する。</p>
+
 ```python
 ax = plt.axes()
 ax.scatter(x = pbde_5_2, y = chl_5_2)
@@ -767,6 +759,7 @@ np.corrcoef(pbde_5_2, chl_5_2)[0,1]
 
 <p>上の出力結果から、相関係数がゼロに近く、散布図からも相関性が明白に出ず、なんとなく無相関な感じである。このような状況での相関関係の考察において、無相関検定は有効である。</p>
 <p>今回の無相関検定は、帰無仮説<i>H</i><sub>0</sub>は「ΣPBDEsとΣCHLsは無相関である」とし、有意水準は5%（&alpha; = 0.05）とする。</p>
+
 ```python
 #stats.pearsonrで相関係数も見ることができるのにnp.corrcoeを単独で実行しておく理由がわからない
 #また、私は正規性・等分散検定をする必要はない (自分の中の仮説に則って行えば良い) と考えていますが、

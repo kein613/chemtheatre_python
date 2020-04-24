@@ -5,7 +5,7 @@
 <p>Part 5では、ChemTHEATREのデータを利用して、計測された化学物質の濃度を地図上にプロットする。いうなれば簡易的なGISである。<br>
   前編ではデータ処理～地図上へのプロットを、後編では出力した画像データをつなぎ合わせてアニメーションを作成することを目指す。</p>
 
-<img src="./img/img05.SVG" alt="img05"　style="zoom:80%;" />
+<img src="./images/img05.SVG" alt="img05"　style="zoom:80%;" />
 
 
 ## Chap.1 ライブラリの読み込み

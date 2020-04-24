@@ -1,14 +1,10 @@
 
 # Part5 地図上へのプロット（後編）
 <p>さて、前編の続きである。後編では、前編で出力したグラフを時系列ごとに並べて、パラパラ漫画の要領でアニメーションを作成する。</p>
-<figure id="process">
-<img src="../img/img (6).SVG" alt="全体図"width=75% height=75%>
-</figure>
 
-
+<img src="./images/img06.SVG" alt="img06" style="zoom:80%;" />
 
 ## Chap.6 ライブラリの読み込み
-
 
 ```python
 import os
@@ -25,6 +21,7 @@ from PIL import Image, ImageDraw
 
 <p>最初に利用するライブラリを読み込む事から始める。<br>今回は、JupyterNotebook上にグラフ表示するを必要がないので「%matplotlib inline」のマジックコマンドは入力しない。<br>
   その代わり、出力結果を保存する<sup><a href=#sup1>1</a></sup>ために、matplotlibの設定を調整する必要がある（7行目・コメント参照）。</p>
+  
 <table style="text-align: left; font-size: 0.8rem">
   <tr align="left">
     <th>ライブラリ</th>
@@ -83,16 +80,14 @@ from PIL import Image, ImageDraw
 </table>
 
 
-
 ## Chap.7 データの準備 
 
 <p>アニメーションを作成する前に、データの準備を行う。今回取り扱うデータは、Part 5の前編のChap.3で作成・出力し、グラフを表示したものと同じデータである。</p>
+
 ```python
 data_lipid = pd.read_csv("data.csv")
 data_lipid
 ```
-
-
 
 <table border="1" class="dataframe" style="font-size: 0.8rem">
   <thead>
@@ -258,46 +253,39 @@ data_lipid
 </table>
 <p>480 rows × 40 columns</p>
 
-
 <p>ここで、アニメーションの出力に利用するので、いつからいつまでのデータが有るかを確認する。最小値と最大値はminメソッドとmaxメソッドを利用する。</p>
+
 ```python
 start, end = data_lipid["CollectionYear"].min(), data_lipid["CollectionYear"].max()
 start, end
 ```
 
-
-
-
     (1978, 2006)
 
-
-
 <p>また、どのような生物・化学物質のデータを含むのかも確認しておく。これはuniqueメソッドを利用する。</p>
+
 ```python
 lipid_species = data_lipid["ScientificName"].unique()
 lipid_chemicals = data_lipid["ChemicalName"].unique()
 lipid_species, lipid_chemicals
 ```
 
-
-
-
     (array(['Peponocephala electra', 'Neophocaena phocaenoides',
             'Sousa chinensis', 'Stenella coeruleoalba'], dtype=object),
      array(['ΣPCBs', 'ΣDDTs', 'ΣCHLs', 'ΣHCHs'], dtype=object))
 
 
-
 ## Chap.8 アニメーション化する
 
 ### Sec.8-1 時系列ごとにプロットする
+
 <p>Chap.4・Chap.5で出力した画像は、すべての時間のデータを重ね合わせて出力していた。このSec.ではそのデータを時系列ごとにバラして出力する。</p>
 <p>まず、保存先の準備をしておく。</p>
+
 ```python
 save_dir = "fig"
 os.mkdir(save_dir)   #フォルダの作成
 ```
-
 
     ---------------------------------------------------------------------------
     
@@ -312,6 +300,7 @@ os.mkdir(save_dir)   #フォルダの作成
 
 
 <p>保存先の準備ができたら、グラフの出力をする。</p>
+
 ```python
 #このコード以下のコードについてについてなんの説明もなし？理解できるとは思えません。
 
@@ -344,13 +333,13 @@ for year in range(start, end+1):
 ### Sec.8-2 統合してアニメーション出力する
 <p>Sec.8-1で、年ごとのグラフを出力したので、あとはパラパラ漫画の要領で画像を重ねて一つのGIFファイル<sup><a href=#sup5>5</a></sup>にする。</p>
 <p>まず、出力した画像ファイルの一覧をリストで取得する。</p>
+
 ```python
 f_list = glob.glob(os.path.join(save_dir, "*"))
 ```
 
 <p>取得したファイルを順に読み込み、GIFアニメーションとしてまとめて出力する。画像の読み込み・書き出しはPillowを利用する。<br>
 なお、アニメーションの速さは、saveメソッドのdurationというパラメーターでミリ秒単位での調整ができる。</p>
-
 
 ```python
 images = []
@@ -359,8 +348,6 @@ for f in f_list:
     images.append(img)
 images[0].save(os.path.join(save_dir, "animation.gif"), save_all=True, append_images=images[1:], optimize=False, duration=500, loop=0)
 ```
-
-
 
 ## 脚注
 

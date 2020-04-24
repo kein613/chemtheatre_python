@@ -754,4 +754,4 @@ plt.show()
 <p><sup id=sup1>1</sup>イテレータとは、リストなどのデータの集合する型で次の要素にアクセスすることを繰り返す仕組みのこと。</p>
 <p><sup id=sup2>2</sup>直積とは、下図のように各集合から要素を1つずつ取り出して組にして、新たな集合を作ること。デカルト積とも。</p>
 
-<img src="./images/img12.SVG" alt="img12"　style="zoom:80%;" />
+<img src="./images/img12.SVG" alt="img12" style="zoom:80%;" />

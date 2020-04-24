@@ -27,8 +27,8 @@ from cartopy import crs as ccrs
 1行目は例によって、matplotlibの出力結果を表示するコマンドである。<br>
 Part 5では、以下のライブラリを利用することになる。（2行目以降参照）<br>
 なお、いずれもAnaconda3(Windows 64bit版)にはすでにインストールされている。<br>
-今回は、matplotlibのグラフ上に地図を表示するためにcartopyを利用する。
-</p>
+今回は、matplotlibのグラフ上に地図を表示するためにcartopyを利用する。</p>
+
 <table style="text-align: left; font-size: 0.8rem">
   <tr align="left">
     <th>ライブラリ</th>
@@ -76,14 +76,13 @@ Part 5では、以下のライブラリを利用することになる。（2行�
 
 ## Chap.2 データの読み込み
 <p>ライブラリの準備ができたので、次にデータの読み込みを行う。今回使用するのは、ChemTHEATREのSample Searchから海棲哺乳類（Sample Typeを「Biotic - Mammals - Marine mammals」）のデータである。ダウンロードできたら、いつもの要領でノートブックから読み込む。</p>
+
 ```python
 data_file = "measureddata_20191002074038.tsv"    #変数に入力する文字列を、各自のmeasureddataのtsvファイル名に変更する
 data = pd.read_csv(data_file, delimiter="\t")
 data = data.drop(["ProjectID", "ScientificName", "RegisterDate", "UpdateDate"], axis=1)    #後でsamplesと結合する際に重複する列の削除
 data
 ```
-
-
 
 <table border="1" class="dataframe" style="font-size: 0.8rem">
   <thead>

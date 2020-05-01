@@ -706,6 +706,7 @@ class_dic
 
 
 <p>次に、dfにClass列を追加し、各行の学名に対応した値をClass列に入力する。</p>
+
 ```python
 df["Class"] = 0
 for irow in range(len(df)):
